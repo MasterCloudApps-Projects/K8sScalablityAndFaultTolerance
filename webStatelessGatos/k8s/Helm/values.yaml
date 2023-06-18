@@ -1,0 +1,25 @@
+# Default values for webGatos.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+webgatos:
+  image: codeurjc/webgatos
+  tag: "v1"
+  pullPolicy: IfNotPresent
+  containerPort: 5000
+  replicaCount: 1
+  service:
+    port: 5000
+    targetPort: 5000 
+    type: ClusterIP
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+    targetAverageUtilization: 10
+
+chaos:
+  enabled: false
+  tag: app
+  value: myApplication
+  namespace: default
+  delay: 60

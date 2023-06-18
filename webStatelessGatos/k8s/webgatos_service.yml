@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webgatos-service
+  namespace: webgatos
+  labels:
+    app: webgatos
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+      name: webgatos-port
+  selector:
+    app: webgatos
+  type: LoadBalancer
+  

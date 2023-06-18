@@ -1,0 +1,8 @@
+target
+.project
+.settings
+.vscode
+.classpath
+.idea
+bin
+rabbitmq-producer.iml

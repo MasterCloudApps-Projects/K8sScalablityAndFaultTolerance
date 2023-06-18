@@ -1,0 +1,34 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 4.797999999999994,
+    "medianResTime" : 5.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 41.0,
+    "pct1ResTime" : 6.0,
+    "pct2ResTime" : 7.0,
+    "pct3ResTime" : 9.0,
+    "throughput" : 2.786058562950993,
+    "receivedKBytesPerSec" : 2.3716051441088792,
+    "sentKBytesPerSec" : 0.3400950394227287
+  },
+  "Get gatito" : {
+    "transaction" : "Get gatito",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 4.797999999999994,
+    "medianResTime" : 5.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 41.0,
+    "pct1ResTime" : 6.0,
+    "pct2ResTime" : 7.0,
+    "pct3ResTime" : 9.0,
+    "throughput" : 2.786058562950993,
+    "receivedKBytesPerSec" : 2.3716051441088792,
+    "sentKBytesPerSec" : 0.3400950394227287
+  }
+}

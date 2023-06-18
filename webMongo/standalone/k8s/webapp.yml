@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: mongodb-standalone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: java
+        image: virginiamartinpolo/mongodb:v1.0
+        env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: mongodb-service
+        - name: SPRING_DATA_MONGODB_PORT
+          value: "27017"
+        - name: SPRING_DATA_MONGODB_DATABASE
+          value: posts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: mongodb-standalone
+  labels:
+    app: webapp
+spec:
+  type: NodePort
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 8080

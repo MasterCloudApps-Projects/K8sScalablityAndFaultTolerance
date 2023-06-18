@@ -1,0 +1,29 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cron-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: rabbitmq-consumer
+  minReplicaCount: 1
+  pollingInterval: 5 # Optional. Default: 30 seconds
+  cooldownPeriod: 30 # Optional. Default: 300 seconds
+  advanced:                                    # Optional. Section to specify advanced options
+    restoreToOriginalReplicaCount: true        # Optional. Default: false
+    horizontalPodAutoscalerConfig:             # Optional. Section to specify HPA related options
+      name: keda-hpa-rabbitmq-scaledobject     # Optional. Default: rabbitmq-scaledobject{scaled-object-name}
+      behavior:                                # Optional. Use to modify HPA's scaling behavior
+        scaleDown:
+          stabilizationWindowSeconds: 10
+          policies:
+          - type: Percent
+            value: 100
+            periodSeconds: 15
+  triggers:
+  - type: cron
+    metadata:
+      timezone: Europe/Madrid
+      start: 37 * * * *
+      end: 38 * * * *
+      desiredReplicas: "10"

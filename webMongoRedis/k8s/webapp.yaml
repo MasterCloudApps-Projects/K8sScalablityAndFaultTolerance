@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: mongoredis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: java
+        image: huertaslopez/webmongoredis:13.6
+        env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: mongodb-service
+        - name: SPRING_DATA_MONGODB_PORT
+          value: "27017"
+        - name: SPRING_DATA_MONGODB_DATABASE
+          value: posts
+        - name: SPRING_REDIS_HOST 
+          value: redis-service
+        - name: SPRING_REDIS_PORT 
+          value: "6379"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: mongoredis
+  labels:
+    app: webapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 8080

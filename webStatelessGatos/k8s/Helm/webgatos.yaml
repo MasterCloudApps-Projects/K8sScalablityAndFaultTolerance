@@ -1,0 +1,4 @@
+webgatos:
+  service:
+    type: NodePort
+  replicaCount: 2

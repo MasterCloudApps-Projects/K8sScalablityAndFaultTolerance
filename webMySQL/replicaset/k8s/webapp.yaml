@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: replication
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: java
+        image: huertaslopez/webmysql:v1.16
+        env:
+        - name: SPRING_DATASOURCE_MASTER_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_MASTER_PASSWORD
+          value: pass
+        - name: SPRING_DATASOURCE_MASTER_URL
+          value: jdbc:mysql://mysql-primary-headless.replication:3306/anuncios
+        - name: SPRING_DATASOURCE_SLAVE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_SLAVE_PASSWORD
+          value: pass
+        - name: SPRING_DATASOURCE_SLAVE_URL
+          value: jdbc:mysql://mysql-secondary-headless.replication:3306/anuncios
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: replication
+  labels:
+    app: webapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 8080

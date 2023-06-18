@@ -1,0 +1,17 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+  app:
+    build: .
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+     rabbitmq:
+       condition: service_healthy

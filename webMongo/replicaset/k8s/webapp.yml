@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: java
+        image: virginiamartinpolo/mongodbrplst:2.0.0
+        env:
+        - name: SPRING_DATA_MONGODB_URI
+          value: mongodb://mongo-0.mongodb-svc,mongo-1.mongodb-svc,mongo-2.mongodb-svc?replicaSet=ns0/posts
+        # - name: SPRING_DATA_MONGODB_PORT
+        #   value: "27017"
+        # - name: SPRING_DATA_MONGODB_DATABASE
+        #   value: posts
+        # - name: SPRING_DATA_MONGODB_USERNAME
+        #   value: ""
+        # - name: SPRING_DATA_MONGODB_PASSWORD
+        #   value: ""
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: default
+  labels:
+    app: webapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: webapp-port

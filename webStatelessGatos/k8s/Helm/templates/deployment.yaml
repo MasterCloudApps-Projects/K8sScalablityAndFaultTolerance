@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webgatos
+  namespace: {{ .Release.Namespace }}
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: webgatos
+  replicas: {{ .Values.webgatos.replicaCount }} 
+  template:
+    metadata:
+      labels:
+        app: webgatos
+    spec:
+      containers:
+      - name: webgatos
+        image: {{ printf "%s:%s" .Values.webgatos.image .Values.webgatos.tag }}
+        imagePullPolicy: {{ .Values.webgatos.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.webgatos.containerPort }}
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi

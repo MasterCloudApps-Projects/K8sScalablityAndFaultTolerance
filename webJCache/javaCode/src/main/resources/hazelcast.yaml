@@ -1,0 +1,12 @@
+hazelcast:
+  cache:
+    posts:
+      management-enabled: true
+  network:
+    join:
+      multicast:
+        enabled: false
+      kubernetes:
+        enabled: true
+        namespace: default
+        service-name: hazelcast-service
